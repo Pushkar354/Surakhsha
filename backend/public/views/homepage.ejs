@@ -374,19 +374,29 @@ const Reports=[];
 db.collection('reports').onSnapshot((snapshot)=>{
     snapshot.forEach((doc)=>{
         const data=doc.data();
-         if(Reports[data.id]==undefined){
-            Reports[data.id]=L.marker([data.currentLocation._lat,data.currentLocation._long],{icon:ReportIcon});
-            sosmarkers.addLayer(Reports[data.id]);
-            map.addLayer(sosmarkers);
+        
+       if(data.seen!=true){
 
+           if(Reports[data.id]==undefined){
+               Reports[data.id]=L.marker([data.currentLocation._lat,data.currentLocation._long],{icon:ReportIcon});
+               sosmarkers.addLayer(Reports[data.id]);
+            map.addLayer(sosmarkers);
+            
             Reports[data.id].addEventListener('click', (e)=>{
                 const form=document.getElementById('formreport');
                 console.log(form)
                 form.action=`/user/history/reports/${data.id}`
-               HTMLFormElement.prototype.submit.call(form)
-                  
-                })
-         }
+                HTMLFormElement.prototype.submit.call(form)
+                sosmarkers.removeLayer(Reports[data.id]);
+              
+            })
+        }
+            }
+            else{
+                sosmarkers.removeLayer(Reports[data.id]);
+            }
+    
+         
     })
 })
 
