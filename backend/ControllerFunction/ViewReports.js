@@ -16,13 +16,7 @@ if(reportDetails.seen=false){
 }
 let userreported=reportDetails.email;
 let userdata= await getData("users");
-let phonenumber="";
-userdata.forEach((e)=>{
-    if(e.email==userreported){
-        phonenumber=e.phonenumber;
-    }
-})
 
-res.render("Reports.ejs",{reportDetails,phonenumber});
+res.render("Reports.ejs",{reportDetails});
 }
 module.exports=viewReport;
