@@ -407,19 +407,22 @@ db.collection('reports').onSnapshot((snapshot)=>{
 
 
 var count=0;
-db.collection('volunteers').onSnapshot((snapshot)=>{
+db.collection('users').onSnapshot((snapshot)=>{
     Volunteer=[];
     snapshot.forEach(doc=>{
         const data=doc.data();
         console.log(data)
-        if(data.location!=undefined){
-
-            Volunteer[data.id]=L.marker([data.location._lat,data.location._long],{icon:VolunteerIcon}).bindPopup(data.name);
-           // L.DomUtil.addClass(Volunteer[data.id]._icon, 'blinking');
-           volunteermarkers.addLayer(Volunteer[data.id])
-           map.addLayer(volunteermarkers)
-            if(count>0){
-                Volunteer[data.id].remove();
+        if(data.role=="volunteer"){
+            
+            if(data.location!=undefined){
+                
+                Volunteer[data.id]=L.marker([data.location._lat,data.location._long],{icon:VolunteerIcon}).bindPopup(data.name);
+                // L.DomUtil.addClass(Volunteer[data.id]._icon, 'blinking');
+                volunteermarkers.addLayer(Volunteer[data.id])
+                map.addLayer(volunteermarkers)
+                if(count>0){
+                    Volunteer[data.id].remove();
+                }
             }
         }
         })
@@ -466,18 +469,22 @@ db.collection('reports').onSnapshot((snapshot)=>{
     reportcount.innerText=count;
 })
 
-db.collection('volunteers').onSnapshot((snapshot)=>{
-   var count=0;
-    snapshot.forEach(doc=>{
-        count++;
-    })
-    totalvolunteers.innerText=count;
-})
-db.collection('volunteers').onSnapshot((snapshot)=>{
+db.collection('users').onSnapshot((snapshot)=>{
    var count=0;
     snapshot.forEach(doc=>{
         const data=doc.data();
-        if(data.isactive){
+        if(data.role=="volunteer"){
+
+            count++;
+        }
+    })
+    totalvolunteers.innerText=count;
+})
+db.collection('users').onSnapshot((snapshot)=>{
+   var count=0;
+    snapshot.forEach(doc=>{
+        const data=doc.data();
+        if(data.isactive && data.role=="volunteer"){
             count++
         }
     })

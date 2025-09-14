@@ -22,9 +22,10 @@ const addVolunteer= async(req,res)=>{
                 number:number,
                 email:email,
                 password:password,
-                isactive:false
+                isactive:false,
+                role:"volunteer"
             }
-         addData("volunteers",data,id).then( res.redirect("/user/volunteers"));
+         addData("users",data,id).then( res.redirect("/user/volunteers"));
            
    } catch (error) {
        console.log(error);

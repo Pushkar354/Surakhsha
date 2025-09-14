@@ -73,31 +73,35 @@
                 <h2 class="text-xl font-semibold">All Volunteers</h2>
                 <div class="overflow-scroll p-2 h-[210px]">
                   <% alldata.forEach((e)=> { %>
-                    <form action="/user/deleteVolunteer?_method=DELETE" method="POST">
-
-                      <div class="volunteer_added flex justify-between items-center p-2 bg-gray-200 rounded-lg mb-2 mt-2">
+                    <% if (e.role=="volunteer") { %>
+                     
+                      
+                      <form action="/user/deleteVolunteer?_method=DELETE" method="POST">
                         
-                        
-                        <div class="flex gap-2 items-center ">
-                          <div class="rounded-full bg-red-500 h-[15px] w-[15px]"></div><div>
-                            <span class="name"><%= e.name %></span> 
-                            <p class="text-sm">
-                              
-                              <span class="volunteer_id hidden"><%= e.id %></span> 
-                              <span>Location ,</span>
-                              <span class="font-semibold   "> <%= e.number %></span>
-                              <span><input type="text" class="hidden" name="delete_id" value=<%= e.id %> readonly> </span>
-                            </p>
+                        <div class="volunteer_added flex justify-between items-center p-2 bg-gray-200 rounded-lg mb-2 mt-2">
+                          
+                          
+                          <div class="flex gap-2 items-center ">
+                            <div class="rounded-full bg-red-500 h-[15px] w-[15px]"></div><div>
+                              <span class="name"><%= e.name %></span> 
+                              <p class="text-sm">
+                                
+                                <span class="volunteer_id hidden"><%= e.id %></span> 
+                                <span class="semi-bold " >Active: <span class="text-red-700"><%=  e.isactive %> </span> ,</span>
+                                <span class="font-semibold   "> <%= e.number %></span>
+                                <span><input type="text" class="hidden" name="delete_id" value=<%= e.id %> readonly> </span>
+                              </p>
+                            </div>
+                            
                           </div>
+                          <div>
+                            <button type="button"  class="editBtn cursor-pointer text-black p-2 px-6 font-semibold rounded-full border">Edit</button>
+                            <button type="submit" class="cursor-pointer bg-black text-white p-2 px-6 font-semibold rounded-full border">Delete</button>
+                          </form>
                           
                         </div>
-                        <div>
-                          <button type="button"  class="editBtn cursor-pointer text-black p-2 px-6 font-semibold rounded-full border">Edit</button>
-                          <button type="submit" class="cursor-pointer bg-black text-white p-2 px-6 font-semibold rounded-full border">Delete</button>
-                        </form>
-                      
-                    </div>
-                  </div>
+                      </div>
+                      <% } %>
                   <% }) %>
                   
                 </div>
@@ -164,7 +168,7 @@
                         Phone number
                         
                       </p>
-                      <input id="Volunteer_num type="text" name="number" placeholder="+91 9407370474" class="w-[100%] p-2 mb-6 border-gray-500 border-2 rounded-lg">
+                      <input id="Volunteer_num type="text" name="number" placeholder="+91 77719141131" class="w-[100%] p-2 mb-6 border-gray-500 border-2 rounded-lg">
                       <br>
                       <div class="flex justify-between">
                         
@@ -257,18 +261,22 @@ db.collection('reports').onSnapshot((snapshot)=>{
     reportcount.innerText=count;
 })
 
-db.collection('volunteers').onSnapshot((snapshot)=>{
+db.collection('users').onSnapshot((snapshot)=>{
    var count=0;
     snapshot.forEach(doc=>{
+      const data=doc.data();
+      if(data.role=="volunteer"){
+
         count++;
+      }
     })
     totalvolunteers.innerText=count;
 })
-db.collection('volunteers').onSnapshot((snapshot)=>{
+db.collection('users').onSnapshot((snapshot)=>{
    var count=0;
     snapshot.forEach(doc=>{
         const data=doc.data();
-        if(data.isactive){
+        if(data.isactive&&data.role=="volunteer"){
             count++
         }
     })

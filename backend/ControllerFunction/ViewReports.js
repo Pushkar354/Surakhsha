@@ -14,8 +14,7 @@ if(reportDetails.seen=false){
     console.log(error)
 }
 }
-let userreported=reportDetails.email;
-let userdata= await getData("users");
+
 
 res.render("Reports.ejs",{reportDetails});
 }

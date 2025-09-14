@@ -17,7 +17,7 @@ const deleteController = async (req, res) => {
   }
 
   try {
-    const volunteerRef = db.collection("volunteers").doc(id);
+    const volunteerRef = db.collection("users").doc(id);
     const doc = await volunteerRef.get();
 
     if (!doc.exists) {

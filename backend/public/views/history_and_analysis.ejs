@@ -284,18 +284,22 @@ db.collection('reports').onSnapshot((snapshot)=>{
     totalincidents.innerText=totalreportcount;
 })
 
-db.collection('volunteers').onSnapshot((snapshot)=>{
-   var count=0;
-    snapshot.forEach(doc=>{
-        count++;
-    })
-    totalvolunteers.innerText=count;
-})
-db.collection('volunteers').onSnapshot((snapshot)=>{
+db.collection('users').onSnapshot((snapshot)=>{
    var count=0;
     snapshot.forEach(doc=>{
         const data=doc.data();
-        if(data.isactive){
+        if(data.role=="volunteer"){
+
+            count++;
+        }
+    })
+    totalvolunteers.innerText=count;
+})
+db.collection('users').onSnapshot((snapshot)=>{
+   var count=0;
+    snapshot.forEach(doc=>{
+        const data=doc.data();
+        if(data.isactive &&data.role=="volunteer"){
             count++
         }
     })
