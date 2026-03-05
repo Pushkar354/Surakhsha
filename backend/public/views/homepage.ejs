@@ -318,10 +318,13 @@ const db=firebase.firestore();
     snapshot.forEach(doc=>{
         const data=doc.data()
     if(data.resolved==false){
-      
+
+            if(marker[data.id] == undefined){
+
             marker[data.id]=L.marker([data.currentLocation._lat,data.currentLocation._long],{icon:SosIcon});
             sosmarkers.addLayer(marker[data.id]);
             map.addLayer(sosmarkers)
+            }
             marker[data.id].addEventListener('click',(e2)=>{
                
                 sos.classList.remove('hidden');
