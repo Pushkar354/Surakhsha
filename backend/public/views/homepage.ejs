@@ -406,27 +406,25 @@ db.collection('reports').onSnapshot((snapshot)=>{
 
 
 
-var count=0;
+
+   var Volunteer=[];
 db.collection('users').onSnapshot((snapshot)=>{
-    Volunteer=[];
     snapshot.forEach(doc=>{
         const data=doc.data();
         console.log(data)
-        if(data.role=="volunteer"){
+        if(data.role=="volunteer" && data.location!=undefined){
             
-            if(data.location!=undefined){
+            if(Volunteer[data.id] == undefined){
                 
                 Volunteer[data.id]=L.marker([data.location._lat,data.location._long],{icon:VolunteerIcon}).bindPopup(data.name);
                 // L.DomUtil.addClass(Volunteer[data.id]._icon, 'blinking');
                 volunteermarkers.addLayer(Volunteer[data.id])
                 map.addLayer(volunteermarkers)
-                if(count>0){
-                    Volunteer[data.id].remove();
-                }
+               
             }
         }
         })
-        count++;
+      
         
     })
     
